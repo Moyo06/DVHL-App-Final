@@ -1,13 +1,13 @@
-Name,,Address,Latitude,Longitude,Phone
-Mirabel Centre,,"LASUTH, Ikeja",6.6018,3.3515,8155770000
-Project Alert on Violence Against Women,,"PO Box 15456, Ikeja",6.6,3.35,8180091072
-Women At Risk International Foundation (WARIF),,"6 Turton St, Yaba",6.5175,3.39,2.35E+12
-Dorothy Njemanze Foundation,,Gaduwa Estate / Abuja office,9.016,7.426,7013333307
-FIDA Nigeria (Intl Federation of Women Lawyers),,"Room GA15, Federal Ministry of Justice, Maitama",9.064,7.489,2.35E+12
-WACOL (Women's Aid Collective),,"No. 9 Dr Mathias Ilo Ave, Enugu",6.455,7.498,8155850000
-WRAPA (Women’s Rights Advancement & Protection Alternative),,"Plot 792 Wuse 2, Abuja",9.058,7.481,8188699961
-Stand To End Rape (NGO placeholder),,National helpline,0,0,8095967000
-TAMAR / SARC (Enugu helpline),,Tamar SARC office,6.44,7.494,9060002128
-Hopeline (Generic Shelter placeholder),,Local shelter (verify),4.8156,7.0498,8112663348
-Women’s Safe House (Ibadan placeholder),,Ibadan shelter (verify),7.3775,3.947,8012345678
-National Domestic Violence Hotline (demo),,National,0,0,0800-HELP-NG
+Name,,Address,Latitude,Longitude,Phone,City
+Mirabel Centre,,"LASUTH, Ikeja",6.6018,3.3515,8155770000,Ikeja
+Project Alert on Violence Against Women,,"PO Box 15456, Ikeja",6.6,3.35,8180091072,ikeja
+Women At Risk International Foundation (WARIF),,"6 Turton St, Yaba",6.5175,3.39,2.35E+12,yaba
+Dorothy Njemanze Foundation,,Gaduwa Estate / Abuja office,9.016,7.426,7013333307,abuja
+FIDA Nigeria (Intl Federation of Women Lawyers),,"Room GA15, Federal Ministry of Justice, Maitama",9.064,7.489,2.35E+12,abuja
+WACOL (Women's Aid Collective),,"No. 9 Dr Mathias Ilo Ave, Enugu",6.455,7.498,8155850000,enugu
+WRAPA (Women’s Rights Advancement & Protection Alternative),,"Plot 792 Wuse 2, Abuja",9.058,7.481,8188699961,abuja
+Stand To End Rape (NGO placeholder),,National helpline,0,0,8095967000,ota
+TAMAR / SARC (Enugu helpline),,Tamar SARC office,6.44,7.494,9060002128,damaturu
+Hopeline (Generic Shelter placeholder),,Local shelter (verify),4.8156,7.0498,8112663348,maiduguri
+Women’s Safe House (Ibadan placeholder),,Ibadan shelter (verify),7.3775,3.947,8012345678,isegun
+National Domestic Violence Hotline (demo),,National,0,0,0800-HELP-NG,lafia
