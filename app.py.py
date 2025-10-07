@@ -40,7 +40,20 @@ st.dataframe(help_centers, use_container_width=True)
 
 st.subheader("🚨 Send SOS Message")
 with st.form("sos_form"):
+st.subheader("💬 Comments & Experiences")
+st.write("Share your experience or advice to help others feel supported.")
+
 name = st.text_input("Your Name")
+comment = st.text_area("Your Comment")
+
+if st.button("Submit Comment"):
+    if name and comment:
+        with open("comments.csv", "a") as f:
+            f.write(f"{name}: {comment}\n")
+        st.success("Thank you for sharing your experience! 💜")
+    else:
+        st.warning("Please fill in both fields before submitting.")
+
 location = st.text_input("Your Location")
 situation = st.text_area("Describe the situation briefly")
 submitted_sos = st.form_submit_button("Send SOS")
