@@ -1,97 +1,104 @@
 import streamlit as st
 import pandas as pd
-import folium
-from streamlit_folium import st_folium
+from datetime import datetime
 
-st.set_page_config(page_title="Domestic Violence Helpline Locator", page_icon="❤️", layout="wide")
+# --- PAGE CONFIG ---
 
-# --- HEADER ---
+st.set_page_config(page_title="Domestic Violence Helpline Locator", page_icon="📞", layout="wide")
+
+# --- SIDEBAR ---
+
+st.sidebar.header("🚨 Emergency Contacts")
+st.sidebar.markdown("""
+**Call Emergency:** 112
+**Helpline:** +234-815-577-0000
+**Email:** [womenhelpng@gmail.com](mailto:womenhelpng@gmail.com)
+""")
+
+st.sidebar.info("If you or someone you know is in danger, please reach out immediately.")
+
+# --- PAGE HEADER ---
+
 st.title("Domestic Violence Helpline Locator")
-st.write("Find help centers near you, access emergency services, and chat anonymously for support.")
+st.caption("Find verified help centers, reach out instantly, and share your experience to inspire others.")
 
-# --- ABOUT & BENEFITS ---
-st.header("About this Website")
-st.write("""
-This website helps survivors of domestic violence quickly locate nearby help centers and reach emergency services.
-""")
+# --- HELP CENTERS DATA ---
 
-st.subheader("Benefits:")
-st.write("""
-- Immediate access to verified emergency helplines.  
-- Searchable directory of local help centers.  
-- Map visualization for easy location tracking.  
-- Anonymous chat for guidance and support.  
-- Optional location input to inform help centers safely.  
-- Downloadable resources for offline access.
-""")
+help_centers = pd.DataFrame([
+{"Center": "Mirabel Centre", "Location": "LASUTH, Ikeja, Lagos", "Phone": "+2348155770000"},
+{"Center": "Project Alert", "Location": "Ikeja, Lagos", "Phone": "+2348180091072"},
+{"Center": "WARDC", "Location": "Yaba, Lagos", "Phone": "+2347012345678"},
+{"Center": "Women’s Rights Watch", "Location": "Enugu", "Phone": "+2348032221111"},
+])
 
-# --- HELPLINES DIRECTORY ---
-st.header("📋 Helplines Directory")
+# --- SECTION 1: HELP CENTERS ---
 
-# Load CSV data
-df = pd.read_csv("help_centers.csv")
+st.subheader("📍 Nearby Help Centers")
+st.dataframe(help_centers, use_container_width=True)
 
-search_city = st.text_input("Search helplines by city or location:")
+# --- SECTION 2: SOS MESSAGE ---
 
-if search_city:
-    filtered = df[df['City'].str.contains(search_city, case=False, na=False)]
+st.subheader("🚨 Send SOS Message")
+with st.form("sos_form"):
+name = st.text_input("Your Name")
+location = st.text_input("Your Location")
+situation = st.text_area("Describe the situation briefly")
+submitted_sos = st.form_submit_button("Send SOS")
+if submitted_sos:
+if name and location and situation:
+st.success("🚨 SOS sent successfully! A support agent will reach out shortly.")
 else:
-    filtered = df
+st.warning("Please fill in all fields before submitting.")
 
-for idx, row in filtered.iterrows():
-    st.write(f"**{row['Name']}** - {row['City']} - {row['Address']} - {row['Phone']}")
+# --- SECTION 3: FEEDBACK / COMMENTS ---
 
-# --- MAP ---
-st.header("📍 Helpline Locations on Map")
-m = folium.Map(location=[6.5244, 3.3792], zoom_start=6)  # Nigeria central coordinates
+st.subheader("💬 Comments & Experiences")
 
-for idx, row in df.iterrows():
-    if pd.notna(row['Latitude']) and pd.notna(row['Longitude']):
-        folium.Marker(
-            location=[row['Latitude'], row['Longitude']],
-            popup=f"{row['Name']} - {row['City']}\n{row['Phone']}",
-            tooltip=row['Name']
-        ).add_to(m)
+# File to store comments
 
-st_data = st_folium(m, width=700, height=500)
+COMMENTS_FILE = "comments.csv"
 
-# --- ANONYMOUS CHAT ---
-st.header("💬 Anonymous Chat")
+# Load existing comments
 
-chat_input = st.text_area("Write your message (anonymous):", height=100)
+try:
+comments_df = pd.read_csv(COMMENTS_FILE)
+except FileNotFoundError:
+comments_df = pd.DataFrame(columns=["Name", "Comment", "Timestamp"])
 
-if st.button("Send"):
-    if chat_input.strip() != "":
-        st.success("Help is on the way! If safe, consider sharing your location.")
+# Form for new comment
+
+with st.form("comment_form"):
+name = st.text_input("Name (you can use a nickname)")
+comment = st.text_area("Your comment or experience")
+submit_comment = st.form_submit_button("Post Comment")
+
+```
+if submit_comment:
+    if name and comment:
+        new_entry = pd.DataFrame({
+            "Name": [name],
+            "Comment": [comment],
+            "Timestamp": [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
+        })
+        comments_df = pd.concat([comments_df, new_entry], ignore_index=True)
+        comments_df.to_csv(COMMENTS_FILE, index=False)
+        st.success("✅ Comment posted successfully!")
     else:
-        st.warning("Please write something before sending.")
+        st.warning("Please enter both your name and comment.")
+```
 
-# --- OPTIONAL LOCATION ---
-st.subheader("📍 Share Your Location (Optional)")
-user_location = st.text_input("Enter your location or address if safe:")
+# Display previous comments
 
-if user_location:
-    st.info("Your location has been noted. Help centers can be notified safely.")
-
-# --- DOWNLOAD ---
-st.header("💾 Download Helpline List")
-csv = df.to_csv(index=False).encode('utf-8')
-st.download_button(
-    label="Download Helplines CSV",
-    data=csv,
-    file_name='help_centers.csv',
-    mime='text/csv'
-)
-
-# --- RESOURCES & SAFETY TIPS ---
-st.header("📚 Resources & Safety Tips")
-st.write("""
-- **Know your rights:** Learn legal protections against domestic violence.  
-- **Safety planning:** Steps to protect yourself and loved ones.  
-- **Counseling & support:** Access emotional and psychological support services.  
-- **Trusted contacts:** Always have someone you can call in emergencies.
-""")
+if not comments_df.empty:
+st.write("### 🗣️ Previous Comments")
+for _, row in comments_df.iterrows():
+st.markdown(f"**{row['Name']}** *({row['Timestamp']})*")
+st.write(f"> {row['Comment']}")
+st.markdown("---")
+else:
+st.info("No comments yet. Be the first to share your thoughts.")
 
 # --- FOOTER ---
+
 st.markdown("---")
-st.markdown("Created by Moyo Iyanda ❤️ | Share to raise awareness")
+st.caption("Developed by Moyo Iyanda | Domestic Violence Helpline Locator (DVHL)")
