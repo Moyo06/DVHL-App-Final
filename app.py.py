@@ -81,9 +81,22 @@ comments_df = pd.DataFrame(columns=["Name", "Comment", "Timestamp"])
 # Form for new comment
 
 with st.form("comment_form"):
-name = st.text_input("Name (you can use a nickname)")
-comment = st.text_area("Your comment or experience")
-submit_comment = st.form_submit_button("Post Comment")
+    st.subheader("💬 Comments & Experiences")
+    st.write("Share your experience or advice to help others feel supported.")
+
+    name = st.text_input("Your Name")
+    comment = st.text_area("Your Comment")
+
+    submitted = st.form_submit_button("Submit Comment")
+
+    if submitted:
+        if name and comment:
+            with open("comments.csv", "a") as f:
+                f.write(f"{name}: {comment}\n")
+            st.success("Thank you for sharing your experience! 💜")
+        else:
+            st.warning("Please fill in both fields before submitting.")
+
 
 ```
 if submit_comment:
